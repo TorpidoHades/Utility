@@ -27,21 +27,48 @@ public class screenTwoDCFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        screenTwoDCSplitPane = new javax.swing.JSplitPane();
+        dcleftPanel = new javax.swing.JPanel();
+        dcrightPanel = new javax.swing.JPanel();
+
         setTitle("Data Comparision Window");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setForeground(java.awt.Color.lightGray);
         setPreferredSize(new java.awt.Dimension(1366, 768));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+        screenTwoDCSplitPane.setDividerLocation(150);
+
+        dcleftPanel.setBackground(new java.awt.Color(0, 51, 255));
+
+        javax.swing.GroupLayout dcleftPanelLayout = new javax.swing.GroupLayout(dcleftPanel);
+        dcleftPanel.setLayout(dcleftPanelLayout);
+        dcleftPanelLayout.setHorizontalGroup(
+            dcleftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 149, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+        dcleftPanelLayout.setVerticalGroup(
+            dcleftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 537, Short.MAX_VALUE)
         );
+
+        screenTwoDCSplitPane.setLeftComponent(dcleftPanel);
+
+        dcrightPanel.setBackground(new java.awt.Color(204, 204, 0));
+
+        javax.swing.GroupLayout dcrightPanelLayout = new javax.swing.GroupLayout(dcrightPanel);
+        dcrightPanel.setLayout(dcrightPanelLayout);
+        dcrightPanelLayout.setHorizontalGroup(
+            dcrightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 373, Short.MAX_VALUE)
+        );
+        dcrightPanelLayout.setVerticalGroup(
+            dcrightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 537, Short.MAX_VALUE)
+        );
+
+        screenTwoDCSplitPane.setRightComponent(dcrightPanel);
+
+        getContentPane().add(screenTwoDCSplitPane, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -82,5 +109,8 @@ public class screenTwoDCFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel dcleftPanel;
+    private javax.swing.JPanel dcrightPanel;
+    private javax.swing.JSplitPane screenTwoDCSplitPane;
     // End of variables declaration//GEN-END:variables
 }
