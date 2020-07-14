@@ -5,6 +5,19 @@
  */
 package DataComparisionPackage;
 
+import ConnectionPackage.postgreSQLConnectionClass;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Properties;
+
+
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Jaswant
@@ -14,8 +27,29 @@ public class screenTwoDCFrame extends javax.swing.JFrame {
     /**
      * Creates new form screenTwoDCFrame
      */
+    
+    postgreSQLConnectionClass objCon = new postgreSQLConnectionClass();
+    private Connection postgreCon = null;
+    
     public screenTwoDCFrame() {
         initComponents();
+        jLabelUN.setVisible(false);
+        sourceUserName.setVisible(false);
+        jLabelPWD.setVisible(false);
+        sourcePassword.setVisible(false);
+        jLabelHN.setVisible(false);
+        sourceHostname.setVisible(false);
+        jLabelPN.setVisible(false);
+        sourcePortNumber.setVisible(false);
+        jLabelDBN.setVisible(false);
+        sourceDBName.setVisible(false);
+        
+        
+        btnTestCon.setVisible(false);
+        btnSaveCon.setVisible(false);
+        
+       
+        
     }
 
     /**
@@ -29,41 +63,207 @@ public class screenTwoDCFrame extends javax.swing.JFrame {
 
         screenTwoDCSplitPane = new javax.swing.JSplitPane();
         dcleftPanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        dcsourceSelector = new javax.swing.JComboBox<>();
+        leftPanelSource = new javax.swing.JPanel();
+        sourceUserName = new javax.swing.JTextField();
+        jLabelUN = new javax.swing.JLabel();
+        jLabelPWD = new javax.swing.JLabel();
+        sourceHostname = new javax.swing.JTextField();
+        jLabelHN = new javax.swing.JLabel();
+        sourcePassword = new javax.swing.JTextField();
+        jLabelDBN = new javax.swing.JLabel();
+        sourcePortNumber = new javax.swing.JTextField();
+        jLabelPN = new javax.swing.JLabel();
+        sourceDBName = new javax.swing.JTextField();
+        btnTestCon = new javax.swing.JButton();
+        btnSaveCon = new javax.swing.JButton();
         dcrightPanel = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        dctargetSelector = new javax.swing.JComboBox<>();
 
         setTitle("Data Comparision Window");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setForeground(java.awt.Color.lightGray);
         setPreferredSize(new java.awt.Dimension(1366, 768));
 
-        screenTwoDCSplitPane.setDividerLocation(150);
+        screenTwoDCSplitPane.setDividerLocation(450);
 
         dcleftPanel.setBackground(new java.awt.Color(0, 51, 255));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Select the Source ");
+
+        dcsourceSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Select Database-", "PostgreSQL", "MongoDB", "Oracle" }));
+        dcsourceSelector.setAutoscrolls(true);
+        dcsourceSelector.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                dcsourceSelectorItemStateChanged(evt);
+            }
+        });
+
+        leftPanelSource.setBackground(new java.awt.Color(0, 51, 255));
+
+        sourceUserName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        sourceUserName.setToolTipText("Enter username");
+
+        jLabelUN.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabelUN.setText("User Name");
+
+        jLabelPWD.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabelPWD.setText("Password");
+
+        sourceHostname.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        sourceHostname.setToolTipText("Enter username");
+
+        jLabelHN.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabelHN.setText("Hostname");
+
+        sourcePassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        sourcePassword.setToolTipText("Enter username");
+
+        jLabelDBN.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabelDBN.setText("DB Name");
+
+        sourcePortNumber.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        sourcePortNumber.setToolTipText("Enter username");
+
+        jLabelPN.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabelPN.setText("Port");
+
+        sourceDBName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        sourceDBName.setToolTipText("Enter username");
+
+        btnTestCon.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnTestCon.setText("Test Connection");
+        btnTestCon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTestConMouseClicked(evt);
+            }
+        });
+
+        btnSaveCon.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnSaveCon.setText("Save Connection");
+        btnSaveCon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSaveConMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout leftPanelSourceLayout = new javax.swing.GroupLayout(leftPanelSource);
+        leftPanelSource.setLayout(leftPanelSourceLayout);
+        leftPanelSourceLayout.setHorizontalGroup(
+            leftPanelSourceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, leftPanelSourceLayout.createSequentialGroup()
+                .addGroup(leftPanelSourceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(leftPanelSourceLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(leftPanelSourceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelUN, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelPWD, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(52, 52, 52))
+                    .addGroup(leftPanelSourceLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(leftPanelSourceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelDBN, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelHN, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelPN, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnTestCon))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(leftPanelSourceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(sourcePortNumber, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                    .addComponent(sourceUserName)
+                    .addComponent(sourcePassword)
+                    .addComponent(sourceHostname)
+                    .addComponent(sourceDBName)
+                    .addComponent(btnSaveCon, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(34, 34, 34))
+        );
+        leftPanelSourceLayout.setVerticalGroup(
+            leftPanelSourceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(leftPanelSourceLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(leftPanelSourceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sourceUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelUN, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(leftPanelSourceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelPWD, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sourcePassword, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(leftPanelSourceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelHN, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sourceHostname, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(leftPanelSourceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelPN, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sourcePortNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(leftPanelSourceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelDBN, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sourceDBName, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addGroup(leftPanelSourceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnTestCon, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSaveCon, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout dcleftPanelLayout = new javax.swing.GroupLayout(dcleftPanel);
         dcleftPanel.setLayout(dcleftPanelLayout);
         dcleftPanelLayout.setHorizontalGroup(
             dcleftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 149, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(dcleftPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(dcsourceSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dcleftPanelLayout.createSequentialGroup()
+                .addContainerGap(30, Short.MAX_VALUE)
+                .addComponent(leftPanelSource, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         dcleftPanelLayout.setVerticalGroup(
             dcleftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 537, Short.MAX_VALUE)
+            .addGroup(dcleftPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(55, 55, 55)
+                .addComponent(dcsourceSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(leftPanelSource, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(63, Short.MAX_VALUE))
         );
 
         screenTwoDCSplitPane.setLeftComponent(dcleftPanel);
 
         dcrightPanel.setBackground(new java.awt.Color(204, 204, 0));
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Select the Target ");
+
+        dctargetSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Select Database-", "PostgreSQL", "MongoDB", "Oracle" }));
+
         javax.swing.GroupLayout dcrightPanelLayout = new javax.swing.GroupLayout(dcrightPanel);
         dcrightPanel.setLayout(dcrightPanelLayout);
         dcrightPanelLayout.setHorizontalGroup(
             dcrightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 373, Short.MAX_VALUE)
+            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(dcrightPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(dctargetSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(231, Short.MAX_VALUE))
         );
         dcrightPanelLayout.setVerticalGroup(
             dcrightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 537, Short.MAX_VALUE)
+            .addGroup(dcrightPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(55, 55, 55)
+                .addComponent(dctargetSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(420, Short.MAX_VALUE))
         );
 
         screenTwoDCSplitPane.setRightComponent(dcrightPanel);
@@ -73,9 +273,165 @@ public class screenTwoDCFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void dcsourceSelectorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_dcsourceSelectorItemStateChanged
+        // TODO add your handling code here:
+     leftPanelSource.setBorder(BorderFactory.createTitledBorder(dcsourceSelector.getSelectedItem().toString()));
+     if(!jLabelUN.isVisible() && !sourceUserName.isVisible() )
+     {
+         jLabelUN.setVisible(true);
+         sourceUserName.setVisible(true);
+     }
+     if(!jLabelPWD.isVisible() && !sourcePassword.isVisible())
+     {
+         jLabelPWD.setVisible(true);
+         sourcePassword.setVisible(true);
+     }
+     if(!jLabelHN.isVisible() && !sourceHostname.isVisible())
+     {
+         jLabelHN.setVisible(true);
+         sourceHostname.setVisible(true);
+     }
+     if(!jLabelPN.isVisible() && !sourcePortNumber.isVisible())
+     {
+         jLabelPN.setVisible(true);
+         sourcePortNumber.setVisible(true);
+     }
+      if(!jLabelDBN.isVisible() && !sourceDBName.isVisible())
+     {
+         jLabelDBN.setVisible(true);
+         sourceDBName.setVisible(true);
+     }
+     if(!btnTestCon.isVisible())
+     {
+         btnTestCon.setVisible(true);
+      }
+      if(!btnSaveCon.isVisible())
+     {
+         btnSaveCon.setVisible(true);
+      }
+    }//GEN-LAST:event_dcsourceSelectorItemStateChanged
+
+    private void btnTestConMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTestConMouseClicked
+        // TODO add your handling code here:
+        if(dcsourceSelector.getSelectedItem().toString().equals("PostgreSQL"))
+        {
+         
+            
+            if(getUsername().isEmpty() || getPassword().isEmpty() || getPort().isEmpty() || getHostname().isEmpty() || getDBNaame().isEmpty())
+            {
+                JOptionPane.showMessageDialog(null, "Fill the details properly, Do not keep it blank!","Warning",JOptionPane.WARNING_MESSAGE);
+            }
+            else
+            {
+                try {
+                    postgreCon = objCon.getConnection(getUsername(), getPassword(), getPort(), getHostname(), getDBNaame());
+                    if(postgreCon==null)
+                    {
+                        JOptionPane.showMessageDialog(null, "Check Connection Details.","Error",JOptionPane.ERROR_MESSAGE);
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "Connection Successful :)","Success",JOptionPane.PLAIN_MESSAGE);
+                    }
+                        
+                } catch (ClassNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+                  
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+                }
+                
+            }
+            
+        }
+    }//GEN-LAST:event_btnTestConMouseClicked
+
+    private void btnSaveConMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveConMouseClicked
+        // TODO add your handling code here:
+        
+       
+         if(getUsername().isEmpty() || getPassword().isEmpty() || getPort().isEmpty() || getHostname().isEmpty() || getDBNaame().isEmpty())
+         {
+                JOptionPane.showMessageDialog(null, "Fill the details properly, Do not keep it blank!","Warning",JOptionPane.WARNING_MESSAGE);
+         }
+         else
+         {
+            File fileUpdateStatus = new File ("C:\\AlphaUtility\\PostgreSQLConnections\\"+getUsername()+"\\"+getDBNaame()+".properties");
+            if(fileUpdateStatus.exists())
+            {
+                JOptionPane.showMessageDialog(null, "Data Overide is Successful","Success",JOptionPane.PLAIN_MESSAGE);
+            }
+            createUserFolder(getUsername());
+            createDbFile(getDBNaame());
+            
+         }
+         
+         
+    }//GEN-LAST:event_btnSaveConMouseClicked
+
     /**
      * @param args the command line arguments
+     * @return 
      */
+    public void createUserFolder(String username)
+    {
+         File usernameFolder = new File("C:\\AlphaUtility\\PostgreSQLConnections\\"+username);
+            if(!usernameFolder.exists())
+            {
+                usernameFolder.mkdir();
+                System.out.println("Folder Created for the user");
+            }
+    }
+    
+    public void createDbFile(String dbname)
+    {
+        File dbConFile = new File("C:\\AlphaUtility\\PostgreSQLConnections\\"+getUsername()+"\\"+getDBNaame()+".properties");    
+        
+          try {
+             boolean result = dbConFile.createNewFile();   
+                FileOutputStream out = new FileOutputStream("C:\\AlphaUtility\\PostgreSQLConnections\\"+getUsername()+"\\"+getDBNaame()+".properties");
+                Properties conProp = new Properties();
+                conProp.setProperty("username",getUsername());
+                conProp.setProperty("password", getPassword());
+                conProp.setProperty("hostname", getHostname());
+                conProp.setProperty("port", getPort());
+                conProp.setProperty("dbName", getDBNaame());
+                conProp.save(out, "Connection Data Stored Successfully");
+                if(result)
+                {
+                    JOptionPane.showMessageDialog(null,"Connection Data Saved Successfully :)","Success",JOptionPane.PLAIN_MESSAGE);
+                }
+
+             } catch (IOException ex) {
+                 JOptionPane.showMessageDialog(null, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+             }
+    
+    }
+    
+    public String getUsername()
+    {
+        return sourceUserName.getText().trim();
+    }
+    public String getPassword()
+    {
+        return sourcePassword.getText().trim();
+    }
+      public String getHostname()
+    {
+        return sourceHostname.getText().trim();
+    }
+    public String getPort()
+    {
+        return sourcePortNumber.getText().trim();
+    }
+    public String getDBNaame()
+    {
+        return sourceDBName.getText().trim();
+    }
+    public Connection getConnection()
+    {
+       return postgreCon;
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -109,8 +465,25 @@ public class screenTwoDCFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSaveCon;
+    private javax.swing.JButton btnTestCon;
     private javax.swing.JPanel dcleftPanel;
     private javax.swing.JPanel dcrightPanel;
+    private javax.swing.JComboBox<String> dcsourceSelector;
+    private javax.swing.JComboBox<String> dctargetSelector;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabelDBN;
+    private javax.swing.JLabel jLabelHN;
+    private javax.swing.JLabel jLabelPN;
+    private javax.swing.JLabel jLabelPWD;
+    private javax.swing.JLabel jLabelUN;
+    private javax.swing.JPanel leftPanelSource;
     private javax.swing.JSplitPane screenTwoDCSplitPane;
+    private javax.swing.JTextField sourceDBName;
+    private javax.swing.JTextField sourceHostname;
+    private javax.swing.JTextField sourcePassword;
+    private javax.swing.JTextField sourcePortNumber;
+    private javax.swing.JTextField sourceUserName;
     // End of variables declaration//GEN-END:variables
 }

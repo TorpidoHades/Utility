@@ -6,6 +6,7 @@
 package ScreenOne;
 import DataComparisionPackage.*;
 import QueryBuilderPackage.screenThreeQBFrame;
+import java.io.File;
 /**
  *
  * @author Jaswant
@@ -239,6 +240,28 @@ public class screenOne extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new screenOne().setVisible(true);
+                String postgreSQLPath = "C:\\AlphaUtility\\PostgreSQLConnections";
+                File postgreSQLObj = new File(postgreSQLPath);
+                if(!postgreSQLObj.exists())
+                {
+                    postgreSQLObj.mkdir();
+                    System.out.println("Folder created Successfully for PostgreSQLDB");
+                }
+                String mongoDBPath = "C:\\AlphaUtility\\MongoDBConnections";
+                File mongoDBObj = new File(mongoDBPath);
+                if(!mongoDBObj.exists())
+                {
+                    mongoDBObj.mkdir();
+                    System.out.println("Folder created Successfully for MongoDB");
+                }
+                String oracleDBPath = "C:\\AlphaUtility\\OracleDBConnections";
+                File oracleDBObj = new File(oracleDBPath);
+                if(!oracleDBObj.exists())
+                {
+                    oracleDBObj.mkdir();
+                    System.out.println("Folder created Successfully for OracleDB");
+                } 
+                
 
             }
         });
